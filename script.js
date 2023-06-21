@@ -1,9 +1,13 @@
 $(document).ready(function() {
     var items = [];
 
+    // Sorting variables
+    var sortColumn = null;
+    var sortDirection = 1;
+
     // Adding to the list of items
     function addItem(item, quantity) {
-        items.push({item: item, quantity: quantity});
+        items.push({ item: item, quantity: quantity });
         updateTable();
     }
 
@@ -13,8 +17,27 @@ $(document).ready(function() {
         updateTable();
     }
 
+    // Sort the items based on the current sorting column and direction
+    function sortItems() {
+        if (sortColumn === 'quantity') {
+            items.sort(function(a, b) {
+                return sortDirection * (a.quantity - b.quantity);
+            });
+        } else if (sortColumn === 'item') {
+            items.sort(function(a, b) {
+                return sortDirection * a.item.localeCompare(b.item);
+            });
+        }
+    }
+
+    // Toggle the sort direction when a column header is clicked
+    function toggleSortDirection() {
+        sortDirection *= -1;
+    }
+
     // Updating the table with the current items
     function updateTable() {
+        sortItems(); // Sort the items before updating the table
         var tableBody = $('#itemTable tbody');
         tableBody.empty();
 
@@ -39,8 +62,20 @@ $(document).ready(function() {
     });
 
     // Delete button click
-    $("#itemTable").on("click", ".delete-btn", function () {
+    $("#itemTable").on("click", ".delete-btn", function() {
         var index = $(this).data("index");
         removeItem(index);
+    });
+
+    // Column header click
+    $("#itemTable").on("click", ".sortable", function() {
+        var column = $(this).data("column");
+        if (sortColumn === column) {
+            toggleSortDirection();
+        } else {
+            sortColumn = column;
+            sortDirection = 1;
+        }
+        updateTable();
     });
 });
