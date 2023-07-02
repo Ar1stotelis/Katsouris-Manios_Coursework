@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #0033cc;
+  background-color: #9fbfdf
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -52,7 +52,7 @@ body {
 }
 
 .footer {
-  background-color: #0033cc;
+  background-color: #9fbfdf
   padding: 10px;
   color: #333;
   text-align: center;
